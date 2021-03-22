@@ -107,13 +107,13 @@ class MainWindow(QMainWindow):
         newLayout.addWidget(newEntryLabel)
         logging.debug('newEntryLabel created and added to subLayoutPrimary')
 
-        #add_nodes_button = QPushButton("Add node", self)
-        #logging.debug('create new QPushButton widget')
-        #add_nodes_button.setText("This is your button")
-        #logging.debug('set text for new button')
-        ##add_nodes_button.triggered.connect(self.createNetwork)
-        #subLayoutPrimary.addWidget(add_nodes_button)
-        #logging.debug('add_nodes_button is added to the subLayoutPrimary')
+        add_nodes_button = QPushButton("Add node", self)
+        logging.debug('create new QPushButton widget')
+        add_nodes_button.setText("This is your button")
+        logging.debug('set text for new button')
+        #add_nodes_button.triggered.connect(self.createNetwork)
+        newLayout.addWidget(add_nodes_button)
+        logging.debug('add_nodes_button is added to the subLayoutPrimary')
 
 
 

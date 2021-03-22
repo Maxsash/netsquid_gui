@@ -1,5 +1,11 @@
+import os
+
 def newNetwork(name):
-    f = open(name + ".py", "w+")
+    new_dir = './networks'
+    if not os.path.exists(new_dir):
+        os.makedirs(new_dir)
+
+    f = open(os.path.join(new_dir, name) + ".py", "w+")
     
     #imports
     f.write("from netsquid.nodes import Network\nfrom netsquid.components import QuantumProcessor, QuantumChannel, Channel\n")
