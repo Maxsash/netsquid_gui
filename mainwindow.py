@@ -94,17 +94,18 @@ class MainWindow(QMainWindow):
         logging.debug('newLayout created and set for newWidget')
 
         #Create another sub-widget for network name and button to create new nodes
-        #subWidgetPrimary = QWidget()
-        #logging.debug('subWidgetPrimary created')
+        subWidgetPrimary = QWidget()
+        newLayout.addWidget(subWidgetPrimary)
+        logging.debug('subWidgetPrimary created')
 
         #Create layout for the sub-widget
-        #subLayoutPrimary = QVBoxLayout()
-        #subWidgetPrimary.setLayout(subLayoutPrimary)
-        #logging.debug('subLayoutPrimary created and set for subWidgetPrimary')
+        subLayoutPrimary = QVBoxLayout()
+        subWidgetPrimary.setLayout(subLayoutPrimary)
+        logging.debug('subLayoutPrimary created and set for subWidgetPrimary')
 
         #Create final things that will be added to the name and button sub-layout
         newEntryLabel = QLabel(name)
-        newLayout.addWidget(newEntryLabel)
+        subLayoutPrimary.addWidget(newEntryLabel)
         logging.debug('newEntryLabel created and added to subLayoutPrimary')
 
         add_nodes_button = QPushButton("Add node", self)
@@ -112,7 +113,7 @@ class MainWindow(QMainWindow):
         add_nodes_button.setText("This is your button")
         logging.debug('set text for new button')
         #add_nodes_button.triggered.connect(self.createNetwork)
-        newLayout.addWidget(add_nodes_button)
+        subLayoutPrimary.addWidget(add_nodes_button)
         logging.debug('add_nodes_button is added to the subLayoutPrimary')
 
 
