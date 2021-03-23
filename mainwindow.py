@@ -9,31 +9,34 @@ from netsquid.components import QuantumProcessor, QuantumChannel, Channel
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-class TextEdit(QWidget):
+class NetworkInfo(QWidget):
         def __init__(self,parent=None):
                 super().__init__(parent)
+                self.number_of_nodes = 0
 
                 #self.setWindowTitle("QTextEdit")
                 #self.resize(300,270)
 
-                self.textEdit = QTextEdit()
-                self.btnPress1 = QPushButton("Button 1")
-                self.btnPress2 = QPushButton("Button 2")
+                self.addNode = QPushButton("Add node")
+                self.genNet = QPushButton("Generate network file")
 
-                #layout = QVBoxLayout()
-                #layout.addWidget(self.textEdit)
-                #layout.addWidget(self.btnPress1)
-                #layout.addWidget(self.btnPress2)
-                #self.setLayout(layout)
+                layout = QVBoxLayout()
+                layout.addWidget(self.addNode)
+                layout.addWidget(self.genNet)
+                self.setLayout(layout)
 
-                self.btnPress1.clicked.connect(self.btnPress1_Clicked)
-                self.btnPress2.clicked.connect(self.btnPress2_Clicked)
+                self.addNode.clicked.connect(self.addNode_clicked)
+                self.genNet.clicked.connect(self.genNet_clicked)
 
-        def btnPress1_Clicked(self):
-                self.textEdit.setPlainText("Hello PyQt5!\nfrom pythonpyqt.com")
+                label = QLabel("No nodes have been added to this network" + str(self.number_of_nodes))
+                layout.addWidget(label)
 
-        def btnPress2_Clicked(self):
-                self.textEdit.setHtml("<font color='red' size='6'><red>Hello PyQt5!\nHello</font>")
+
+        def addNode_clicked(self):
+            self.number_of_nodes += 1
+
+        def genNet_clicked(self):
+            pass
 
 # Subclass QMainWindow to customise your application's main window
 class MainWindow(QMainWindow):
@@ -41,7 +44,7 @@ class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
-        self.setWindowTitle("My Awesome App")
+        self.setWindowTitle("Quantum Network Generator")
 
         self.window = QWidget()
         self.setCentralWidget(self.window)
@@ -49,16 +52,8 @@ class MainWindow(QMainWindow):
         self.layout = QVBoxLayout()
         self.window.setLayout(self.layout)
 
-        label = QLabel("This is a PyQt5 window!")
-
-        #self.layout.addWidget(label)
-
         # The `Qt` namespace has a lot of attributes to customise
         # widgets. See: http://doc.qt.io/qt-5/qt.html
-        label.setAlignment(Qt.AlignCenter)
-
-        # Set the central widget of the Window. Widget will expand
-        # to take up all the space in the window by default.
 
         #Add a toolbar 
         toolbar = QToolBar("My main toolbar")
@@ -67,22 +62,18 @@ class MainWindow(QMainWindow):
         #Add a button in the toolbar
         button_action = QAction("Create a new Network", self)
         button_action.setStatusTip("This is your button")
-        button_action.triggered.connect(self.createNetwork)
+        button_action.triggered.connect(self.newNetworkEntry)
         toolbar.addAction(button_action)
 
-        #self.QtWidgets.addWidget(TextEdit.textEdit)
+    def createNetwork(self, name, nodes):
+            newNetwork(name)
+            print(name + ": Network created succesfully")
 
-    def createNetwork(self):
-        text, okPressed = QInputDialog.getText(self, "Create new Network","Network name:", QLineEdit.Normal, "")
-        if okPressed and text != '':
-            newNetwork(text)
-            print(text + ": Network created succesfully")
+    def newNetworkEntry(self):
+        name, okPressed = QInputDialog.getText(self, "Create new Network","Network name:", QLineEdit.Normal, "")
+        if okPressed and name != '':
+            print(name + ": Network Entry created succesfully")
 
-            #display the network in the GUI
-            self.newLayoutEntry(text)
-
-
-    def newLayoutEntry(self, name):
         #Create another widget to contain network information
         newWidget = QWidget()
         self.layout.addWidget(newWidget)
@@ -108,13 +99,23 @@ class MainWindow(QMainWindow):
         subLayoutPrimary.addWidget(newEntryLabel)
         logging.debug('newEntryLabel created and added to subLayoutPrimary')
 
-        add_nodes_button = QPushButton("Add node", self)
+        #Create another sub-widget for network name and button to create new nodes
+        subWidgetSecondary = QWidget()
+        newLayout.addWidget(subWidgetSecondary)
+        logging.debug('subWidgetSecondary created')
+
+        #Create layout for the sub-widget
+        subLayoutSecondary = QHBoxLayout()
+        subWidgetSecondary.setLayout(subLayoutSecondary)
+        logging.debug('subLayoutSecondary created and set for subWidgetSecondary')
+
+        add_nodes_button = NetworkInfo()
         logging.debug('create new QPushButton widget')
-        add_nodes_button.setText("This is your button")
+        #add_nodes_button.setText("This is your button")
         logging.debug('set text for new button')
-        #add_nodes_button.triggered.connect(self.createNetwork)
-        subLayoutPrimary.addWidget(add_nodes_button)
-        logging.debug('add_nodes_button is added to the subLayoutPrimary')
+        #add_nodes_button.clicked.connect(self.createNetwork)
+        subLayoutSecondary.addWidget(add_nodes_button)
+        logging.debug('add_nodes_button is added to the subLayoutSecondary')
 
 
 
