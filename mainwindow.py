@@ -28,15 +28,17 @@ class NetworkInfo(QWidget):
                 self.addNode.clicked.connect(self.addNode_clicked)
                 self.genNet.clicked.connect(self.genNet_clicked)
 
-                label = QLabel("No nodes have been added to this network" + str(self.number_of_nodes))
-                layout.addWidget(label)
+                self.label = QLabel("No nodes have been added to this network")
+                layout.addWidget(self.label)
 
 
         def addNode_clicked(self):
             self.number_of_nodes += 1
+            self.label.setText("Network has " + str(self.number_of_nodes) + " node(s)")
 
-        def genNet_clicked(self):
-            pass
+        def genNet_clicked(self, name, nodes):
+            newNetwork(name)
+            print(name + ": Network created succesfully")
 
 # Subclass QMainWindow to customise your application's main window
 class MainWindow(QMainWindow):
@@ -65,9 +67,6 @@ class MainWindow(QMainWindow):
         button_action.triggered.connect(self.newNetworkEntry)
         toolbar.addAction(button_action)
 
-    def createNetwork(self, name, nodes):
-            newNetwork(name)
-            print(name + ": Network created succesfully")
 
     def newNetworkEntry(self):
         name, okPressed = QInputDialog.getText(self, "Create new Network","Network name:", QLineEdit.Normal, "")
